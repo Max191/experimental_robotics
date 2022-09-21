@@ -1,5 +1,6 @@
 # experimental_robotics
 Run the following commands:
 
-catkin_make\n
+catkin_make
+
 source devel/setup.bash
