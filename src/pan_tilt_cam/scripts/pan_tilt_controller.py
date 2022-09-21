@@ -23,6 +23,7 @@ class PanTiltNode():
         msg = Twist()
         msg.linear.x = self.tilt
         msg.angular.z = self.pan
+        self.pub.publish(msg)
 
     def bound(self, val, mn, mx):
         return max(min(mx, val), mn)
