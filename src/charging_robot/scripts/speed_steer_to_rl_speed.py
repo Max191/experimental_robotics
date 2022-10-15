@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import rospy
 from geometry_msgs.msg import Twist
+import numpy as np
 
 class SpeedSteerToRL():
     def __init__(self):
@@ -13,7 +14,7 @@ class SpeedSteerToRL():
         speed_to_signal = float(rospy.get_param("/speed_steer_to_rl/speed_to_signal"))
         max_speed = float(rospy.get_param("/speed_steer_to_rl/max_signal"))/speed_to_signal
         speed = data.linear.x
-        steer = data.angular.z
+        steer = np.radians(data.angular.z)
         vel_diff = steer * self.wheel_sep
         right_speed = self.bound(speed, -max_speed, max_speed)
         left_speed = right_speed = self.bound(speed, -max_speed, max_speed)
