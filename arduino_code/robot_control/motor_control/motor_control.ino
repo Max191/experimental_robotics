@@ -1,3 +1,5 @@
+#include <ros.h>
+
 /*********************************************************
 
 This code uses an Arduino uno to command one SMD PWM Motor COntroller (TE-294-001).
@@ -5,7 +7,6 @@ This code uses an Arduino uno to command one SMD PWM Motor COntroller (TE-294-00
 
 ***********************************************************/
 #include <geometry_msgs/Twist.h>
-#include <ros.h>
 #include <stdlib.h>
 
 /*right side*/
@@ -22,10 +23,6 @@ bool left_moving_forward = false;
 bool left_moving_backward = false;
 bool right_moving_forward = false;
 bool right_moving_backward = false;
-
-ros::NodeHandle  nh;
-
-ros::Subscriber<geometry_msgs::Twist> wheel_control_sub("/robot_control/right_left_speed_cmd", wheel_control);
 
 void wheel_control( const geometry_msgs::Twist& cmd_msg) {
    int right_cmd = (int)(cmd_msg.linear.x);
@@ -61,6 +58,9 @@ void wheel_control( const geometry_msgs::Twist& cmd_msg) {
    analogWrite(PWMPinRight, abs(right_cmd));
    analogWrite(PWMPinLeft, abs(left_cmd));
 }
+
+ros::Subscriber<geometry_msgs::Twist> wheel_control_sub("/robot_control/right_left_speed_cmd", wheel_control);
+ros::NodeHandle  nh;
 
 void setup() {
 
