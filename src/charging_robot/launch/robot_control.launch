@@ -1,14 +1,14 @@
 <launch>
     <node name="robot_control" pkg="charging_robot" type="robot_control_node.py" >
-        <param name="speed_scale" type="double" value="1.0" />
-        <param name="steer_scale" type="double" value="60.0" />
+        <param name="speed_scale" type="double" value="2.0" />
+        <param name="steer_scale" type="double" value="240.0" />
         <param name="max_speed" type="double" value="5.0" />
-        <param name="max_steer" type="double" value="90.0" />
+        <param name="max_steer" type="double" value="180.0" />
         <remap from="joystick_in" to="/robot_control/joy_twist_cmd"/>
         <remap from="cmd_out" to="/robot_control/speed_steer_cmd"/>
     </node>
     <node name="speed_steer_to_rl" pkg="charging_robot" type="speed_steer_to_rl_speed.py" >
-        <param name="max_signal" type="double" value="100.0" />
+        <param name="max_signal" type="double" value="200.0" />
         <param name="speed_to_signal" type="double" value="100.0" />
         <param name="wheel_separation" type="double" value="0.5" />
         <remap from="cmd_in" to="/robot_control/speed_steer_cmd"/>
