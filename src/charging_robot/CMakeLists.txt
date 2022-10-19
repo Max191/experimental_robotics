@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   geometry_msgs
+  sensor_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -163,6 +164,7 @@ include_directories(
 catkin_install_python(PROGRAMS
   scripts/robot_control_node.py
   scripts/speed_steer_to_rl_speed.py
+  scripts/joy_to_twist.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

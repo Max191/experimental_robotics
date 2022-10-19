@@ -17,8 +17,8 @@ class RobotControlNode():
         steer_scale = float(rospy.get_param("/robot_control/steer_scale"))
         max_speed = float(rospy.get_param("/robot_control/max_speed"))
         max_steer = float(rospy.get_param("/robot_control/max_steer"))
-        self.speed = self.bound((data.linear.x - 0.5) * speed_scale, -max_speed, max_speed)
-        self.steer = self.bound((data.angular.z - 0.5) * steer_scale, -max_steer, max_steer)
+        self.speed = self.bound((data.linear.x) * speed_scale, -max_speed, max_speed)
+        self.steer = self.bound((data.angular.z) * steer_scale, -max_steer, max_steer)
         self.speed_steer_msg.linear.x = self.speed
         self.speed_steer_msg.angular.z = self.steer
     
