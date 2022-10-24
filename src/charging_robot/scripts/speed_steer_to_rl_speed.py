@@ -6,7 +6,7 @@ import numpy as np
 class SpeedSteerToRL():
     def __init__(self):
         self.wheel_sep = float(rospy.get_param("/speed_steer_to_rl/wheel_separation"))
-        self.rl_speed_pub = rospy.Publisher("control_out", Twist)
+        self.rl_speed_pub = rospy.Publisher("control_out", Twist, queue_size=10)
         self.sub = rospy.Subscriber("cmd_in", Twist, self.callback)
 
     def callback(self, data):

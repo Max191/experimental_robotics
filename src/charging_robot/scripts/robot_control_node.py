@@ -9,7 +9,7 @@ class RobotControlNode():
         self.speed_steer_msg = Twist()
         self.speed_steer_msg.linear.x = self.speed
         self.speed_steer_msg.angular.z = self.steer
-        self.speed_steer_pub = rospy.Publisher("cmd_out", Twist)
+        self.speed_steer_pub = rospy.Publisher("cmd_out", Twist, queue_size=10)
         self.sub = rospy.Subscriber("joystick_in", Twist, self.callback)
 
     def callback(self, data):
