@@ -19,10 +19,26 @@ const int inAPinLeft = 8;
 const int inBPinLeft = 7;
 const int PWMPinLeft = 9;
 
+/*LEDs*/
+const int led_pin_1 = 13;
+const int led_pin_2 = 12;
+const int led_pin_3 = 6;
+const int led_pin_4 = 5;
+
+const int charge_state_pin = 14;
+
+const long led_interval = 1000;
+unsigned long charge_start_time = 0;
+
 bool left_moving_forward = false;
 bool left_moving_backward = false;
 bool right_moving_forward = false;
 bool right_moving_backward = false;
+
+
+
+bool is_charging = false;
+bool charge_pin_status = false;
 
 void wheel_control( const geometry_msgs::Twist& cmd_msg) {
    int right_cmd = (int)(cmd_msg.linear.x);
@@ -59,6 +75,31 @@ void wheel_control( const geometry_msgs::Twist& cmd_msg) {
    analogWrite(PWMPinLeft, abs(left_cmd));
 }
 
+void Charge_Indicator() {
+
+  if(is_charging == true){
+    digitalWrite(led_pin_1,HIGH);
+    unsigned long current_time = millis();
+    unsigned long charge_time = current_time - charge_start_time;
+    if(charge_time > led_interval){
+      digitalWrite(led_pin_2, HIGH);
+    }
+    if(charge_time > led_interval*2){
+      digitalWrite(led_pin_3, HIGH);
+    }
+    if(charge_time > led_interval*3){
+      digitalWrite(led_pin_4, HIGH);
+    }
+  }
+  else{
+    digitalWrite(led_pin_1,LOW);
+    digitalWrite(led_pin_2,LOW);
+    digitalWrite(led_pin_3,LOW);
+    digitalWrite(led_pin_4,LOW);
+  }
+
+}
+
 ros::Subscriber<geometry_msgs::Twist> wheel_control_sub("/robot_control/right_left_speed_cmd", wheel_control);
 ros::NodeHandle  nh;
 
@@ -72,12 +113,35 @@ void setup() {
    pinMode(inBPinLeft, OUTPUT);
    pinMode(PWMPinLeft, OUTPUT);
 
+   pinMode(led_pin_1, OUTPUT);
+   pinMode(led_pin_2, OUTPUT);
+   pinMode(led_pin_3, OUTPUT);
+   pinMode(led_pin_4, OUTPUT);
+
+   pinMode(charge_state_pin, INPUT);
+
    nh.initNode();
 
    nh.subscribe(wheel_control_sub);
 }
 
 void loop() {
+
+
+  charge_pin_status = digitalRead(charge_state_pin);
+  if (charge_pin_status == true && is_charging == false){
+    is_charging = true;
+    charge_start_time = millis();
+    Charge_Indicator();
+  }
+  else if(charge_pin_status == true && is_charging == true){
+    Charge_Indicator();
+  }
+  else if(charge_pin_status == false && is_charging == true){
+    is_charging = false;
+    Charge_Indicator();      
+  }
+
    nh.spinOnce();
    delay(1);
 }
