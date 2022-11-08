@@ -13,6 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   geometry_msgs
   sensor_msgs
+  OpenCV
 )
 
 ## System dependencies are found with CMake's conventions
@@ -120,6 +121,7 @@ catkin_package(
 include_directories(
 # include
   ${catkin_INCLUDE_DIRS}
+  ${OpenCV_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
@@ -150,6 +152,7 @@ include_directories(
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(${PROJECT_NAME}_node
 #   ${catkin_LIBRARIES}
+#   ${OpenCV_LIBRARIES}
 # )
 
 #############
@@ -165,6 +168,7 @@ catkin_install_python(PROGRAMS
   scripts/robot_control_node.py
   scripts/speed_steer_to_rl_speed.py
   scripts/joy_to_twist.py
+  scripts/relative_position.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
