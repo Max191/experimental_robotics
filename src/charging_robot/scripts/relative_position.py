@@ -8,8 +8,8 @@ from visualization_msgs.msg import Marker
 
 class ReversePose():
     def __init__(self):
-        self.cmd_pub = rospy.Publisher("robot_relative_pose", Pose, queue_size=10)
-        self.cmd_sub = rospy.Subscriber("ar_pose_marker", AlvarMarkers, self.callback)
+        self.pose_pub = rospy.Publisher("robot_relative_pose", Pose, queue_size=10)
+        self.pose_sub = rospy.Subscriber("ar_pose_marker", AlvarMarkers, self.callback)
 	self.marker_pub = rospy.Publisher("/visualization_marker_robot", Marker, queue_size = 2)
 
 	self.marker = Marker()
@@ -60,8 +60,7 @@ class ReversePose():
 		z = euler[2]
 		print("%f,%f,%f" % (x,y,z))
 		print(trans)
-		#p = p.inverse()
-		self.cmd_pub.publish(ar)
+		#self.pose_pub.publish(ar)
 		
 		# Set the pose of the marker
 		self.marker.pose.position.x = decomp[3][0]

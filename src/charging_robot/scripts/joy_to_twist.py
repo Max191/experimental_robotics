@@ -6,7 +6,7 @@ from sensor_msgs.msg import Joy
 class JoyToTwist():
     def __init__(self):
         self.cmd_pub = rospy.Publisher("cmd_out", Twist, queue_size=10)
-        self.cmd_sub = rospy.Subscriber("joystick_in", ar_pose_marker, self.callback)
+        self.cmd_sub = rospy.Subscriber("joystick_in", Joy, self.callback)
 
     def callback(self, data):
         rospy.logdebug("Recieved data")
